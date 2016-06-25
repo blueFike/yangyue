@@ -3,16 +3,11 @@ var app = express();
 var fs = require("fs");
 var productsInf = "information.json";
 
-app.put('/products/:id', function (req, res) {
+app.put('/products/:id', function (req, res, next) {
     fs.readFile(productsInf, "utf8", function (err, data) {
         var item = req.body;
 
-        if (err) {
-            res.status(500).send(err);
-
-            return;
-        }
-
+        if (err) return next(err);
         if (isRightKey(item) && isRightType(item)) {
             updateItem(res, req, data, item);
         }
@@ -72,6 +67,5 @@ function writeAllFiles(jsData) {
         }
     });
 }
-
 
 module.exports = app;

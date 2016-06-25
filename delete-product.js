@@ -3,16 +3,9 @@ var app = express();
 var fs = require("fs");
 var productsInf = "information.json";
 
-app.delete('/products/:id', function (req, res) {
+app.delete('/products/:id', function (req, res, next) {
     fs.readFile(productsInf, "utf8", function (err, data) {
-        var flag = 0;
-
-        if (err) {
-            res.status(500).send(err);
-
-            return;
-        }
-
+        if (err) return next(err);
         deleteItem(req, res, data);
     });
 });

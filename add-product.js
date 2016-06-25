@@ -4,15 +4,11 @@ var fs = require("fs");
 var productsInf = "information.json";
 var incId = "increase-id.js";
 
-app.post("/products", function (req, res) {
+app.post("/products", function (req, res, next) {
     fs.readFile(productsInf, "utf8", function (err, data) {
         var item = req.body;
 
-        if (err) {
-            res.status(500).send(err);
-
-            return;
-        }
+        if (err) return next(err);
         if (isRightKey(item) && isRightType(item)) {
             addItem(res, data, item);
         }
@@ -39,13 +35,9 @@ function isRightType(item) {
 }
 
 
-function addItem(res, data, item) {
+function addItem(res, data, item,next) {
     fs.readFile(incId, "utf8", function (err, increaseId) {
-        if (err) {
-            res.status(500).send(err);
-
-            return;
-        }
+        if (err) return next(err);
         var jsData = JSON.parse(data);
         var oneItem = {
             "id": parseInt(increaseId),

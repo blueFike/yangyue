@@ -1,16 +1,12 @@
-var express = require("express");
+var express = require('express');
 var app = express();
-var fs = require("fs");
+var fs = require('fs');
 var productsInf = "information.json";
 
-app.get('/products/:id', function (req, res) {
+app.get('/products/:id', function (req, res, next) {
     fs.readFile(productsInf, "utf8", function (err, data) {
         var flag = 0;
-        if (err) {
-            res.status(500).send(err);
-
-            return;
-        }
+        if (err) return next(err);
         flag = getOneItem(req, res, data);
 
         if (flag === 0) {

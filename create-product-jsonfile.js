@@ -1,5 +1,5 @@
-var fs = require('fs');
-var productsFile = './information.json';
+var fs = require("fs");
+var productsFile = "./information.json";
 
 fs.stat(productsFile, function (err, stat) {
     var fileNotFound = !(stat && stat.isFile());
